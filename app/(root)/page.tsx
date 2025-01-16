@@ -1,9 +1,10 @@
-import { Button } from "@/components/ui/button";
+import ProductList from "@/components/shared/product/product-list";
+import db from "@/db/sample-data";
 
 export default function Home() {
     return (
-        <div>
-            <Button>Test</Button>
-        </div>
+        <>
+            <ProductList data={db.products} title='Recent Products' limit={4} />
+        </>
     );
 }
