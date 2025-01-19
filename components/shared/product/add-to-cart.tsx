@@ -8,7 +8,7 @@ import { Minus, Plus, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 
-const AddToCart = ({ item, cart }: { item: CartItem; cart: Cart }) => {
+const AddToCart = ({ item, cart }: { item: CartItem; cart?: Cart }) => {
     const { toast } = useToast();
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
@@ -48,7 +48,7 @@ const AddToCart = ({ item, cart }: { item: CartItem; cart: Cart }) => {
             return;
         });
     };
-    const productExistInCart = cart.items.find(
+    const productExistInCart = cart?.items.find(
         (x) => x.productId === item.productId
     );
 
