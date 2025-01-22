@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Loader } from "lucide-react";
-import { updateUserAction } from "@/lib/actions/user.action";
+import { updateUserAddress } from "@/lib/actions/user.action";
 
 const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
     const router = useRouter();
@@ -32,7 +32,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
         z.infer<typeof shippingAddressSchema>
     > = async (value) => {
         startTransition(async () => {
-            const res = await updateUserAction(value);
+            const res = await updateUserAddress(value);
             if (!res.success) {
                 toast({
                     variant: "destructive",
@@ -134,56 +134,6 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                         <div className='flex flex-col md:flex-row gap-5'>
                             <FormField
                                 control={form.control}
-                                name='country'
-                                render={({
-                                    field,
-                                }: {
-                                    field: ControllerRenderProps<
-                                        z.infer<typeof shippingAddressSchema>,
-                                        "country"
-                                    >;
-                                }) => (
-                                    <FormItem>
-                                        <FormLabel>Country</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder='Enter Country'
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            ></FormField>
-                        </div>
-                        <div className='flex flex-col md:flex-row gap-5'>
-                            <FormField
-                                control={form.control}
-                                name='fullName'
-                                render={({
-                                    field,
-                                }: {
-                                    field: ControllerRenderProps<
-                                        z.infer<typeof shippingAddressSchema>,
-                                        "fullName"
-                                    >;
-                                }) => (
-                                    <FormItem>
-                                        <FormLabel>Full Name</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder='Enter Full Name'
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            ></FormField>
-                        </div>
-                        <div className='flex flex-col md:flex-row gap-5'>
-                            <FormField
-                                control={form.control}
                                 name='postalCode'
                                 render={({
                                     field,
@@ -206,6 +156,32 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                                 )}
                             ></FormField>
                         </div>
+                        <div className='flex flex-col md:flex-row gap-5'>
+                            <FormField
+                                control={form.control}
+                                name='country'
+                                render={({
+                                    field,
+                                }: {
+                                    field: ControllerRenderProps<
+                                        z.infer<typeof shippingAddressSchema>,
+                                        "country"
+                                    >;
+                                }) => (
+                                    <FormItem>
+                                        <FormLabel>Country</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder='Enter Country'
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            ></FormField>
+                        </div>
+
                         <div className='flex gap-2'>
                             <Button type='submit' disabled={isPending}>
                                 {isPending ? (

@@ -6,6 +6,9 @@ import ShippingAddressForm from "./shipping-address-form";
 import { ShippingAddress as ShippingAddressType } from "@/types";
 import CheckoutStep from "@/components/shared/checkout-step";
 
+export const metadata = {
+    title: "Shipping Address",
+};
 const ShippingAddress = async () => {
     const cart = await getMyCart();
     if (!cart || cart.items.length === 0) {
