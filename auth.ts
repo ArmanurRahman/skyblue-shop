@@ -5,6 +5,7 @@ import CredentialProvider from "next-auth/providers/credentials";
 import { compareSync } from "bcrypt-ts-edge";
 import type { NextAuthConfig } from "next-auth";
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export const config = {
     pages: {
@@ -60,8 +61,9 @@ export const config = {
             return session;
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        async jwt({ user, token }: any) {
+        async jwt({ user, token, trigger }: any) {
             if (user) {
+                token.id = user.id;
                 token.role = user.role;
                 if (user.name === "NO_NAME") {
                     token.name = user.email.split("@")[0];
@@ -75,11 +77,44 @@ export const config = {
                         name: token.name,
                     },
                 });
+                if (trigger === "signIn" || trigger === "signUp") {
+                    const cookeObject = await cookies();
+                    const sessionCartId =
+                        cookeObject.get("sessionCartId")?.value;
+
+                    if (sessionCartId) {
+                        const sessionCart = await prisma.cart.findFirst({
+                            where: { sessionCartId },
+                        });
+                        if (sessionCart) {
+                            await prisma.cart.deleteMany({
+                                where: { userId: user.id },
+                            });
+                            await prisma.cart.update({
+                                where: { id: sessionCart.id },
+                                data: { userId: user.id },
+                            });
+                        }
+                    }
+                }
             }
             return token;
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        authorized({ request }: any) {
+        authorized({ request, auth }: any) {
+            const { pathname } = request.nextUrl;
+            const protectedPaths = [
+                /\/shipping-address/,
+                /\/payment-method/,
+                /\/place-order/,
+                /\/profile/,
+                /\/user\/(.*)/,
+                /\/order\/(.*)/,
+                /\/admin\/(.*)/,
+            ];
+            if (!auth && protectedPaths.some((p) => p.test(pathname))) {
+                return false;
+            }
             if (!request.cookies.get("sessionCartId")) {
                 const sessionCartId = crypto.randomUUID();
                 const newRequestHeaders = new Headers(request.headers);
