@@ -8,3 +8,5 @@ export const LATEST_PRODUCT_LIMIT = 4;
 
 export const PAYMENT_METHODS = ["Paypal", "Stripe", "Cash on delivery"];
 export const DEFAULT_PAYMENT_METHOD = "Paypal";
+
+export const PAGE_SIZE = Number(process.env.PAGE_SIZE) || 2;
