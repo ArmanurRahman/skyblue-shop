@@ -3,6 +3,7 @@ import {
     insertCartSchema,
     insertOrderItemSchema,
     insertProductSchema,
+    insertReviewSchema,
     insetOrderSchema,
     paymentResultSchema,
     shippingAddressSchema,
@@ -31,3 +32,8 @@ export type Order = z.infer<typeof insetOrderSchema> & {
 };
 
 export type PaymentResult = z.infer<typeof paymentResultSchema>;
+export type Review = z.infer<typeof insertReviewSchema> & {
+    id: string;
+    createdAt: Date;
+    user?: { name: string };
+};
