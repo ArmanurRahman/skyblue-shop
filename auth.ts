@@ -1,10 +1,8 @@
 import NextAuth from "next-auth";
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./db/prisma";
 import CredentialProvider from "next-auth/providers/credentials";
 import { compareSync } from "bcrypt-ts-edge";
 import type { NextAuthConfig } from "next-auth";
-import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { authConfig } from "./auth.config";
 
@@ -17,7 +15,6 @@ export const config = {
         strategy: "jwt",
         maxAge: 30 * 24 * 60 * 60, // 30 days
     },
-    adapter: PrismaAdapter(prisma),
     providers: [
         CredentialProvider({
             credentials: {
