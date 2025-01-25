@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 import { SENDER_EMAIL, APP_NAME } from "@/lib/constants";
 import { Order } from "@/types";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 require("dotenv").config();
 import PurchaseReceiptEmail from "./purchase-receipt";
 

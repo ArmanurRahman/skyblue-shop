@@ -15,6 +15,7 @@ import {
 import { Order } from "@/types";
 import { formatCurrency } from "@/lib/utils";
 import sampleData from "@/db/sample-data";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 require("dotenv").config();
 
 PurchaseReceiptEmail.PreviewProps = {
@@ -28,7 +29,7 @@ PurchaseReceiptEmail.PreviewProps = {
         paymentMethod: "Stripe",
         shippingAddress: {
             fullName: "John Doe",
-            streetAddress: "123 Main st",
+            address: "123 Main st",
             city: "New York",
             postalCode: "10001",
             country: "US",

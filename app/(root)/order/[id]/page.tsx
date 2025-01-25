@@ -25,7 +25,7 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
             currency: "USD",
             metadata: { orderId: order.id },
         });
-        client_secret = paymentIntent.client_secret;
+        client_secret = paymentIntent.client_secret as string;
     }
     return (
         <OrderDetailsTable
