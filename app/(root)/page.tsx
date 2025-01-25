@@ -14,7 +14,7 @@ export default async function Home() {
     console.log(featureProduct);
     return (
         <>
-            {featureProduct.length > 1 && (
+            {featureProduct.length > 0 && (
                 <ProductCarousel data={featureProduct} />
             )}
             <ProductList
